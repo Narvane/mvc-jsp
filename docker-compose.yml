@@ -1,0 +1,26 @@
+version: '3'
+
+volumes:
+  my-db:
+    driver: local
+
+services:
+  mysql:
+    image: mysql:latest
+    restart: always
+    environment:
+      MYSQL_DATABASE: db
+      MYSQL_PASSWORD: root
+      MYSQL_ROOT_PASSWORD: root
+    ports:
+      - 3306:3306
+    expose:
+      - 3306
+    volumes:
+      - my-db:/var/lib/mysql
+    networks:
+      - mvc-jsp-network
+
+networks:
+  mvc-jsp-network:
+    driver: bridge
