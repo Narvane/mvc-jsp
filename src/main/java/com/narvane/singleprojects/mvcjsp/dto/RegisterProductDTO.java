@@ -2,14 +2,14 @@ package com.narvane.singleprojects.mvcjsp.dto;
 
 import com.narvane.singleprojects.mvcjsp.model.Product;
 
-public class RegisterProductDTO {
+public class RegisterProductDTO extends GenericDTO<Product> {
 
     private String name;
 
-    public Product toProduct() {
+    public Product toEntity() {
 
         Product product = new Product();
-        product.setName(name);
+        product.setName(this.name);
         return product;
     }
 

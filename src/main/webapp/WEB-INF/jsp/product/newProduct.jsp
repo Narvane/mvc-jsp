@@ -10,13 +10,32 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <html>
 <head>
-    <title>Title</title>
+    <title>New Product</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
 </head>
 <body>
-    <c:url var="new_product_url" value="/product/new"/>
-    <form:form action="${new_product_url}" method="post" modelAttribute="product">
-        <form:label path="name">Product Name: </form:label> <form:input type="text" path="name"/>
-        <input type="submit" value="submit"/>
-    </form:form>
+    <div class="container">
+        <h1 class="display-2">New Product</h1>
+        <c:url var="new_product_url" value="/product/new"/>
+        <form:form action="${new_product_url}" method="post" modelAttribute="product">
+            <div class="form-group">
+                <form:label path="name">Name: </form:label>
+                <form:input class="form-control" placeholder="Product name" type="text" path="name"/>
+            </div>
+            <div class="form-group">
+                <form:label path="value">Value: </form:label>
+                <form:input class="form-control" placeholder="0,00" type="number" path="value"/>
+            </div>
+            <div class="form-group">
+                <form:label path="category">Category: </form:label>
+                <form:select path="category" class="form-control">
+                    <c:forEach items="${categories}" var="category">
+                        <option>${category.name}</option>
+                    </c:forEach>
+                </form:select>
+            </div>
+            <input type="submit" class="btn btn-primary" value="Save"/>
+        </form:form>
+    </div>
 </body>
 </html>
