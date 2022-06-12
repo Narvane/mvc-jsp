@@ -1,8 +1,8 @@
 package com.narvane.singleprojects.mvcjsp.controller.impl;
 
 import com.narvane.singleprojects.mvcjsp.controller.ProductController;
-import com.narvane.singleprojects.mvcjsp.dto.AllCategoriesDTO;
-import com.narvane.singleprojects.mvcjsp.dto.RegisterProductDTO;
+import com.narvane.singleprojects.mvcjsp.dto.product.NewProductCategoryDTO;
+import com.narvane.singleprojects.mvcjsp.dto.product.NewProductDTO;
 import com.narvane.singleprojects.mvcjsp.model.Category;
 import com.narvane.singleprojects.mvcjsp.model.Product;
 import com.narvane.singleprojects.mvcjsp.service.CategoryService;
@@ -35,24 +35,24 @@ public class ProductControllerImpl extends GenericControllerImpl<Product> implem
     @GetMapping("new")
     public String newProductView(Model model) {
 
-        model.addAttribute("product", new Product());
+        model.addAttribute("product", new NewProductDTO());
         model.addAttribute("categories", loadCategories());
 
         return "product/newProduct";
     }
 
     @PostMapping("new")
-    public String registerProduct(@ModelAttribute("product") RegisterProductDTO productDTO) {
+    public String registerProduct(@ModelAttribute("product") NewProductDTO productDTO) {
         getService().save(productDTO.toEntity());
 
         return "product/newProduct";
     }
 
-    private List<AllCategoriesDTO> loadCategories() {
+    private List<NewProductCategoryDTO> loadCategories() {
         List<Category> categories = categoryService.findAll();
 
         return categories.stream().map(
-                category -> new AllCategoriesDTO().fromEntity(category)
+                category -> new NewProductCategoryDTO().fromEntity(category)
         ).collect(Collectors.toList());
     }
 

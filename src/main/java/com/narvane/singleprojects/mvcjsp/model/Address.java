@@ -2,6 +2,7 @@ package com.narvane.singleprojects.mvcjsp.model;
 
 import javax.persistence.Entity;
 import javax.persistence.Table;
+import java.util.UUID;
 
 @Entity
 @Table(name = "tbl_address")
@@ -14,6 +15,13 @@ public class Address extends EntityWithUUID {
     private String district;
 
     private String name;
+
+    public Address() {
+    }
+
+    public Address(UUID id) {
+        super(id);
+    }
 
     public String getCountry() {
         return country;

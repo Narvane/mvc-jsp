@@ -27,10 +27,10 @@
                 <form:input class="form-control" placeholder="0,00" type="number" path="value"/>
             </div>
             <div class="form-group">
-                <form:label path="category">Category: </form:label>
-                <form:select path="category" class="form-control">
+                <form:label path="categoryId">Category: </form:label>
+                <form:select path="categoryId" class="form-control">
                     <c:forEach items="${categories}" var="category">
-                        <option>${category.name}</option>
+                        <form:option value="${category.id}">${category.name}</form:option>
                     </c:forEach>
                 </form:select>
             </div>

@@ -4,6 +4,7 @@ import javax.persistence.Entity;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
+import java.util.UUID;
 
 @Entity
 @Table(name = "tbl_sale")
@@ -16,6 +17,13 @@ public class Sale extends EntityWithUUID {
 
     @OneToOne
     private Product product;
+
+    public Sale() {
+    }
+
+    public Sale(UUID id) {
+        super(id);
+    }
 
     public Order getOrder() {
         return order;

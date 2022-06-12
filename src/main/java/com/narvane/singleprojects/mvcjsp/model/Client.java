@@ -2,6 +2,7 @@ package com.narvane.singleprojects.mvcjsp.model;
 
 import javax.persistence.*;
 import java.util.List;
+import java.util.UUID;
 
 @Entity
 @Table(name = "tbl_client")
@@ -14,6 +15,13 @@ public class Client extends EntityWithUUID {
 
     @OneToOne(cascade = CascadeType.ALL, orphanRemoval = true)
     private Address address;
+
+    public Client() {
+    }
+
+    public Client(UUID id) {
+        super(id);
+    }
 
     public String getName() {
         return name;

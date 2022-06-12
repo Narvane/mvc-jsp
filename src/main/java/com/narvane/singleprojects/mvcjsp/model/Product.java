@@ -4,6 +4,7 @@ import javax.persistence.Entity;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import java.math.BigDecimal;
+import java.util.UUID;
 
 @Entity
 @Table(name = "tbl_product")
@@ -15,6 +16,12 @@ public class Product extends EntityWithUUID {
 
     @ManyToOne
     private Category category;
+
+    public Product() {}
+
+    public Product(UUID id) {
+        super(id);
+    }
 
     public String getName() {
         return name;

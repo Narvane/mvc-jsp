@@ -20,6 +20,13 @@ public class EntityWithUUID {
     @Type(type = "uuid-char")
     private UUID id;
 
+    EntityWithUUID() {
+    }
+
+    EntityWithUUID(UUID id) {
+        this.id = id;
+    }
+
     public UUID getId() {
         return id;
     }

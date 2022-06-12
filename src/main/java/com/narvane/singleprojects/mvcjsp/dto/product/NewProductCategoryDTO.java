@@ -1,8 +1,9 @@
-package com.narvane.singleprojects.mvcjsp.dto;
+package com.narvane.singleprojects.mvcjsp.dto.product;
 
+import com.narvane.singleprojects.mvcjsp.dto.GenericDTO;
 import com.narvane.singleprojects.mvcjsp.model.Category;
 
-public class AllCategoriesDTO extends GenericDTO<Category> {
+public class NewProductCategoryDTO extends GenericDTO<Category> {
 
     private String id;
 
@@ -25,7 +26,7 @@ public class AllCategoriesDTO extends GenericDTO<Category> {
     }
 
     @Override
-    public AllCategoriesDTO fromEntity(Category category) {
+    public NewProductCategoryDTO fromEntity(Category category) {
         this.id = category.getId().toString();
         this.name = category.getName();
         return this;
