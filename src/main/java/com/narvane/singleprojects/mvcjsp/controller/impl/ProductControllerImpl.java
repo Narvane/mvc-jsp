@@ -1,6 +1,7 @@
 package com.narvane.singleprojects.mvcjsp.controller.impl;
 
 import com.narvane.singleprojects.mvcjsp.controller.ProductController;
+import com.narvane.singleprojects.mvcjsp.dto.product.ListProductDTO;
 import com.narvane.singleprojects.mvcjsp.dto.product.NewProductCategoryDTO;
 import com.narvane.singleprojects.mvcjsp.dto.product.NewProductDTO;
 import com.narvane.singleprojects.mvcjsp.model.Category;
@@ -15,6 +16,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.servlet.ModelAndView;
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -45,7 +47,23 @@ public class ProductControllerImpl extends GenericControllerImpl<Product> implem
     public String registerProduct(@ModelAttribute("product") NewProductDTO productDTO) {
         getService().save(productDTO.toEntity());
 
-        return "product/newProduct";
+        return "redirect:/product/all";
+    }
+
+    @Override
+    @GetMapping("all")
+    public ModelAndView allProducts() {
+        ModelAndView modelAndView = new ModelAndView("product/allProducts");
+        modelAndView.addObject("products", loadProducts());
+        return modelAndView;
+    }
+
+    private List<ListProductDTO> loadProducts() {
+        List<Product> products = getService().findAll();
+
+        return products.stream().map(
+                product -> new ListProductDTO().fromEntity(product)
+        ).collect(Collectors.toList());
     }
 
     private List<NewProductCategoryDTO> loadCategories() {

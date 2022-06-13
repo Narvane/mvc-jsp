@@ -29,6 +29,7 @@
             <div class="form-group">
                 <form:label path="categoryId">Category: </form:label>
                 <form:select path="categoryId" class="form-control">
+                    <form:option value="${''}">Select</form:option>
                     <c:forEach items="${categories}" var="category">
                         <form:option value="${category.id}">${category.name}</form:option>
                     </c:forEach>
