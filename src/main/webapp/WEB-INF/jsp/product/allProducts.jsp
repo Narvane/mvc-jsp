@@ -12,11 +12,14 @@
 <head>
     <title>All Products</title>
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 </head>
 <body>
 <div class="container">
 
     <h1 class="display-2">All Products</h1>
+
+    <a href="/product/new" class="btn btn-primary float-right mb-1">New Product</a>
 
     <table class="table">
         <thead>
@@ -35,7 +38,18 @@
                         <td>${product.name}</td>
                         <td>${product.category}</td>
                         <td>${product.value}</td>
-                        <td></td>
+                        <td>
+                            <c:url var="delete_product_url" value="/product/delete?id=${product.id}"/>
+                            <c:url var="update_product_url" value="/product/update?id=${product.id}"/>
+
+                                <a href="${update_product_url}" type="button" class="btn btn-info">
+                                    <i class="fa fa-pencil"></i>
+                                </a>
+
+                                <a href="${delete_product_url}" type="button" class="btn btn-danger">
+                                    <i class="fa fa-trash"></i>
+                                </a>
+                        </td>
                     </tr>
             </c:forEach>
         </tbody>

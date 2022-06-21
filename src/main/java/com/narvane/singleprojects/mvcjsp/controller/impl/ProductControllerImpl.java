@@ -12,13 +12,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
 import java.util.List;
+import java.util.UUID;
 import java.util.stream.Collectors;
 
 @Controller
@@ -43,6 +41,23 @@ public class ProductControllerImpl extends GenericControllerImpl<Product> implem
         return "product/newProduct";
     }
 
+    @GetMapping("update")
+    public String updateProductView(@RequestParam("id") String id, Model model) {
+
+        model.addAttribute("product", new NewProductDTO().fromEntity(getService().findById(UUID.fromString(id))));
+        model.addAttribute("categories", loadCategories());
+
+        return "product/newProduct";
+    }
+
+    @PostMapping("update")
+    public String updateProduct(NewProductDTO productDTO) {
+
+        getService().save(productDTO.toEntity());
+
+        return "redirect:/product/all";
+    }
+
     @PostMapping("new")
     public String registerProduct(@ModelAttribute("product") NewProductDTO productDTO) {
         getService().save(productDTO.toEntity());
@@ -56,6 +71,14 @@ public class ProductControllerImpl extends GenericControllerImpl<Product> implem
         ModelAndView modelAndView = new ModelAndView("product/allProducts");
         modelAndView.addObject("products", loadProducts());
         return modelAndView;
+    }
+
+    @Override
+    @GetMapping("delete")
+    public String deleteProduct(@RequestParam("id") String id) {
+        getService().deleteById(UUID.fromString(id));
+
+        return "redirect:/product/all";
     }
 
     private List<ListProductDTO> loadProducts() {

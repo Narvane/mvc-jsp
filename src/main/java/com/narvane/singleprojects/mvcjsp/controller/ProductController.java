@@ -14,4 +14,7 @@ public interface ProductController extends GenericController<Product> {
 
     ModelAndView allProducts();
 
+    String deleteProduct(String id);
+
+    String updateProductView(String id, Model model);
 }

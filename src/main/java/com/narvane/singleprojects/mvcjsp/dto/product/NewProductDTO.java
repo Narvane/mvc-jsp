@@ -12,6 +12,8 @@ import static io.micrometer.core.instrument.util.StringUtils.*;
 
 public class NewProductDTO extends GenericDTO<Product> {
 
+    private String id;
+
     private String name;
 
     private BigDecimal value;
@@ -23,8 +25,18 @@ public class NewProductDTO extends GenericDTO<Product> {
         Product product = new Product();
         product.setName(this.name);
         product.setValue(value);
+        product.setId(UUID.fromString(id));
         if (isNotBlank(categoryId)) product.setCategory(new Category(UUID.fromString(categoryId)));
         return product;
+    }
+
+    @Override
+    public NewProductDTO fromEntity(Product product) {
+        this.id = product.getId().toString();
+        this.name = product.getName();
+        this.value = product.getValue();
+        this.categoryId = product.getCategory().getId().toString();
+        return this;
     }
 
     public String getName() {
@@ -49,5 +61,13 @@ public class NewProductDTO extends GenericDTO<Product> {
 
     public void setValue(BigDecimal value) {
         this.value = value;
+    }
+
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
     }
 }

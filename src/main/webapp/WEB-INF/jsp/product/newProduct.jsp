@@ -19,6 +19,10 @@
         <c:url var="new_product_url" value="/product/new"/>
         <form:form action="${new_product_url}" method="post" modelAttribute="product">
             <div class="form-group">
+                <form:label path="id">ID: </form:label>
+                <form:input path="id" class="form-control" type="text" placeholder="Id" readonly="true" />
+            </div>
+            <div class="form-group">
                 <form:label path="name">Name: </form:label>
                 <form:input class="form-control" placeholder="Product name" type="text" path="name"/>
             </div>
