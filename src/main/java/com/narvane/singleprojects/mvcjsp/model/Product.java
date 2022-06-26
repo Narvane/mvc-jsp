@@ -12,6 +12,7 @@ public class Product extends EntityWithUUID {
 
     private String name;
 
+    // TODO Set default value to 0.0
     private BigDecimal value;
 
     @ManyToOne

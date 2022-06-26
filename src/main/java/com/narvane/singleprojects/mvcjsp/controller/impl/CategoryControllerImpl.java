@@ -1,7 +1,7 @@
 package com.narvane.singleprojects.mvcjsp.controller.impl;
 
 import com.narvane.singleprojects.mvcjsp.controller.CategoryController;
-import com.narvane.singleprojects.mvcjsp.dto.RegisterCategoryDTO;
+import com.narvane.singleprojects.mvcjsp.dto.category.CategoryFormDTO;
 import com.narvane.singleprojects.mvcjsp.model.Category;
 import com.narvane.singleprojects.mvcjsp.service.GenericService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,6 +16,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 @RequestMapping("category")
 public class CategoryControllerImpl extends GenericControllerImpl<Category> implements CategoryController {
 
+    private static final String CATEGORY_FORM_VIEW = "category/form";
+
     @Autowired
     public CategoryControllerImpl(GenericService<Category> service) {
         super(service);
@@ -23,18 +25,18 @@ public class CategoryControllerImpl extends GenericControllerImpl<Category> impl
 
     @Override
     @GetMapping("new")
-    public String newCategoryView(Model model) {
+    public String showNewCategoryView(Model model) {
 
         model.addAttribute("category", new Category());
-        return "category/newCategory";
+        return CATEGORY_FORM_VIEW;
     }
 
     @Override
     @PostMapping("new")
-    public String registerCategory(@ModelAttribute("category") RegisterCategoryDTO categoryDTO) {
+    public String createCategory(@ModelAttribute("category") CategoryFormDTO categoryDTO) {
         getService().save(categoryDTO.toEntity());
 
-        return "category/newCategory";
+        return CATEGORY_FORM_VIEW;
     }
 
 }

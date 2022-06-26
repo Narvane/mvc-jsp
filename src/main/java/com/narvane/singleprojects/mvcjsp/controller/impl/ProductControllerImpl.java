@@ -1,13 +1,11 @@
 package com.narvane.singleprojects.mvcjsp.controller.impl;
 
 import com.narvane.singleprojects.mvcjsp.controller.ProductController;
-import com.narvane.singleprojects.mvcjsp.dto.product.ListProductDTO;
-import com.narvane.singleprojects.mvcjsp.dto.product.NewProductCategoryDTO;
-import com.narvane.singleprojects.mvcjsp.dto.product.NewProductDTO;
-import com.narvane.singleprojects.mvcjsp.model.Category;
+import com.narvane.singleprojects.mvcjsp.dto.product.ProductFormDTO;
 import com.narvane.singleprojects.mvcjsp.model.Product;
-import com.narvane.singleprojects.mvcjsp.service.CategoryService;
 import com.narvane.singleprojects.mvcjsp.service.GenericService;
+import com.narvane.singleprojects.mvcjsp.service.form.ProductFormService;
+import com.narvane.singleprojects.mvcjsp.service.form.ProductListService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Controller;
@@ -15,61 +13,65 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
-import java.util.List;
 import java.util.UUID;
-import java.util.stream.Collectors;
 
 @Controller
 @RequestMapping("product")
 public class ProductControllerImpl extends GenericControllerImpl<Product> implements ProductController {
 
-    private final CategoryService categoryService;
+    private static final String PRODUCT_FORM_VIEW = "product/form";
+    private static final String PRODUCT_LIST_VIEW = "product/list";
+    private static final String REDIRECT_PRODUCT_LIST = "redirect:/product/all";
+
+    private final ProductFormService formService;
+    private final ProductListService listService;
 
     @Autowired
     public ProductControllerImpl(@Qualifier("productServiceImpl") GenericService<Product> service,
-                                 CategoryService categoryService) {
+                                 ProductFormService formService, ProductListService listService) {
         super(service);
-        this.categoryService = categoryService;
+        this.formService = formService;
+        this.listService = listService;
     }
 
     @GetMapping("new")
-    public String newProductView(Model model) {
+    public String showNewProductView(Model model) {
 
-        model.addAttribute("product", new NewProductDTO());
-        model.addAttribute("categories", loadCategories());
+        model.addAttribute("product", new ProductFormDTO());
+        model.addAttribute("categories", formService.loadAllCategories());
 
-        return "product/newProduct";
+        return PRODUCT_FORM_VIEW;
     }
 
     @GetMapping("update")
-    public String updateProductView(@RequestParam("id") String id, Model model) {
+    public String showUpdateProductView(@RequestParam("id") String id, Model model) {
 
-        model.addAttribute("product", new NewProductDTO().fromEntity(getService().findById(UUID.fromString(id))));
-        model.addAttribute("categories", loadCategories());
+        model.addAttribute("product", new ProductFormDTO().fromEntity(getService().findById(UUID.fromString(id))));
+        model.addAttribute("categories", formService.loadAllCategories());
 
-        return "product/newProduct";
-    }
-
-    @PostMapping("update")
-    public String updateProduct(NewProductDTO productDTO) {
-
-        getService().save(productDTO.toEntity());
-
-        return "redirect:/product/all";
+        return PRODUCT_FORM_VIEW;
     }
 
     @PostMapping("new")
-    public String registerProduct(@ModelAttribute("product") NewProductDTO productDTO) {
+    public String createProduct(@ModelAttribute("product") ProductFormDTO productDTO) {
         getService().save(productDTO.toEntity());
 
-        return "redirect:/product/all";
+        return REDIRECT_PRODUCT_LIST;
+    }
+
+    @PostMapping("update")
+    public String updateProduct(ProductFormDTO productDTO) {
+
+        getService().save(productDTO.toEntity());
+
+        return REDIRECT_PRODUCT_LIST;
     }
 
     @Override
     @GetMapping("all")
-    public ModelAndView allProducts() {
-        ModelAndView modelAndView = new ModelAndView("product/allProducts");
-        modelAndView.addObject("products", loadProducts());
+    public ModelAndView listProducts() {
+        ModelAndView modelAndView = new ModelAndView(PRODUCT_LIST_VIEW);
+        modelAndView.addObject("products", listService.loadAllProducts());
         return modelAndView;
     }
 
@@ -78,23 +80,7 @@ public class ProductControllerImpl extends GenericControllerImpl<Product> implem
     public String deleteProduct(@RequestParam("id") String id) {
         getService().deleteById(UUID.fromString(id));
 
-        return "redirect:/product/all";
-    }
-
-    private List<ListProductDTO> loadProducts() {
-        List<Product> products = getService().findAll();
-
-        return products.stream().map(
-                product -> new ListProductDTO().fromEntity(product)
-        ).collect(Collectors.toList());
-    }
-
-    private List<NewProductCategoryDTO> loadCategories() {
-        List<Category> categories = categoryService.findAll();
-
-        return categories.stream().map(
-                category -> new NewProductCategoryDTO().fromEntity(category)
-        ).collect(Collectors.toList());
+        return REDIRECT_PRODUCT_LIST;
     }
 
 }

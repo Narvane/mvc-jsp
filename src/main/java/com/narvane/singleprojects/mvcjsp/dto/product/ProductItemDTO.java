@@ -5,7 +5,7 @@ import com.narvane.singleprojects.mvcjsp.model.Product;
 
 import java.math.BigDecimal;
 
-public class ListProductDTO extends GenericDTO<Product> {
+public class ProductItemDTO extends GenericDTO<Product> {
 
     private String id;
 
@@ -48,7 +48,7 @@ public class ListProductDTO extends GenericDTO<Product> {
     }
 
     @Override
-    public ListProductDTO fromEntity(Product product) {
+    public ProductItemDTO fromEntity(Product product) {
         this.id = product.getId().toString();
         this.name = product.getName();
         this.value = product.getValue();

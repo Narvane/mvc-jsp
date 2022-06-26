@@ -14,10 +14,4 @@ public class ProductServiceImpl extends GenericServiceImpl<Product> implements P
         super(genericRepository);
     }
 
-    @Override
-    public void newProduct(Product product) {
-        getRepository().save(product);
-    }
-
-
 }

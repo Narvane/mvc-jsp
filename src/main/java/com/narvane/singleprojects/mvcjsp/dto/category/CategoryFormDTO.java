@@ -1,8 +1,10 @@
-package com.narvane.singleprojects.mvcjsp.dto;
+package com.narvane.singleprojects.mvcjsp.dto.category;
 
+import com.narvane.singleprojects.mvcjsp.dto.GenericDTO;
 import com.narvane.singleprojects.mvcjsp.model.Category;
 
-public class RegisterCategoryDTO extends GenericDTO<Category> {
+// TODO Validations
+public class CategoryFormDTO extends GenericDTO<Category> {
 
     private String name;
 

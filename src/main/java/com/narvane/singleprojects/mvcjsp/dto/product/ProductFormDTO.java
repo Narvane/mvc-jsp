@@ -3,14 +3,14 @@ package com.narvane.singleprojects.mvcjsp.dto.product;
 import com.narvane.singleprojects.mvcjsp.dto.GenericDTO;
 import com.narvane.singleprojects.mvcjsp.model.Category;
 import com.narvane.singleprojects.mvcjsp.model.Product;
-import io.micrometer.core.instrument.util.StringUtils;
 
 import java.math.BigDecimal;
 import java.util.UUID;
 
 import static io.micrometer.core.instrument.util.StringUtils.*;
 
-public class NewProductDTO extends GenericDTO<Product> {
+// TODO Validations
+public class ProductFormDTO extends GenericDTO<Product> {
 
     private String id;
 
@@ -25,13 +25,13 @@ public class NewProductDTO extends GenericDTO<Product> {
         Product product = new Product();
         product.setName(this.name);
         product.setValue(value);
-        product.setId(UUID.fromString(id));
+        product.setId(isNotBlank(id) ? UUID.fromString(id) : null);
         if (isNotBlank(categoryId)) product.setCategory(new Category(UUID.fromString(categoryId)));
         return product;
     }
 
     @Override
-    public NewProductDTO fromEntity(Product product) {
+    public ProductFormDTO fromEntity(Product product) {
         this.id = product.getId().toString();
         this.name = product.getName();
         this.value = product.getValue();

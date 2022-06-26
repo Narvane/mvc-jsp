@@ -31,7 +31,7 @@ public abstract class GenericServiceImpl<Entity> implements GenericService<Entit
 
     @Override
     public Entity findById(UUID uuid) {
-        //TODO Exception Handler
+        //TODO Return a specific exception if not present
         return getRepository().findById(uuid).get();
     }
 
